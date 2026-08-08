@@ -11,12 +11,14 @@
 #content[data-page="home"] .save-numbers strong:nth-of-type(1){top:20%}
 #content[data-page="home"] .save-numbers strong:nth-of-type(2){top:67%;color:#b94e68}
 #content[data-page="home"] .progress-wrap{position:absolute;left:43%;right:4%;top:20%;bottom:5%;padding:0;color:transparent}
-#content[data-page="home"] .progress-wrap>b{position:absolute;z-index:2;right:0;top:0;min-width:62%;padding:3px 6px;background:#fff7dc;color:#171327;border:2px solid #7e5347;border-radius:3px;box-shadow:2px 2px 0 #c8a66e;font-size:clamp(12px,3.5vw,16px);text-align:center}
+#content[data-page="home"] .progress-wrap>b{position:absolute;z-index:2;right:8%;top:0;min-width:62%;padding:3px 6px;background:#fff7dc;color:#171327;border:2px solid #7e5347;border-radius:3px;box-shadow:2px 2px 0 #c8a66e;font-size:clamp(12px,3.5vw,16px);text-align:center}
 #content[data-page="home"] .progress-wrap .progress{position:absolute;left:3%;right:0;top:30%;height:24%;margin:0;background:#181936}
-#content[data-page="home"] .progress-wrap>strong{position:absolute;left:38%;top:58%;min-width:34%;padding:2px 5px;background:#fff7dc;color:#b94e68;border:2px solid #7e5347;border-radius:3px;box-shadow:2px 2px 0 #c8a66e;font-size:clamp(19px,5.6vw,27px);line-height:1.1;text-align:center}
+#content[data-page="home"] .progress-wrap>strong{position:absolute;left:35%;top:51%;min-width:31%;padding:2px 4px;background:#fff7dc;color:#b94e68;border:2px solid #7e5347;border-radius:3px;box-shadow:2px 2px 0 #c8a66e;font-size:clamp(16px,4.8vw,23px);line-height:1.05;text-align:center}
 
 /* 収支枠を猫に重ならない範囲で少しだけ上へ */
-#content[data-page="home"]{top:calc(min(62.8vw,270px) - 6px)!important}
+#content{top:calc(min(62.8vw,270px) - 6px)!important}
+#content[data-page="home"] .money-row{min-height:clamp(35px,4.7dvh,46px)!important}
+#content[data-page="home"] .features{transform:translateY(-4px)}
 
 /* 添付画像の4機能カードをそのまま表示 */
 #content[data-page="home"] .features{position:relative;display:grid;grid-template-columns:repeat(4,1fr);height:min(31.5vw,135px);flex:0 0 min(31.5vw,135px);overflow:hidden;gap:0;background:#071331}
