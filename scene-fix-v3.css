@@ -1,0 +1,13 @@
+/* 画像上端の疑似ステータスバーを表示範囲外へ移動 */
+#scene img{transform:translateY(-9vw)}
+
+/* 固定背景は猫と庭の直下で終了し、画像内の見本収支カードを隠す */
+#scene{height:29%!important}
+#content{top:29%!important}
+
+/* タイトル上に形状が現れていた追加発光レイヤーは完全に停止 */
+.moon-glow,.lamp-glow,.window-glow{display:none!important;box-shadow:none!important;background:none!important}
+
+#menuBtn{right:2%;top:1%;width:18%;height:23%}
+
+@media (min-width:431px){#scene img{transform:translateY(-39px)}}
