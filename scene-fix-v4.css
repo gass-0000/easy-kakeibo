@@ -1,0 +1,29 @@
+/* 端末本来のステータスバーを使うため、画像内の疑似表示を除外 */
+#scene img{transform:translateY(-9vw)}
+
+/* 猫の全身まで固定背景に含め、画像内の見本収支カード直前で終了 */
+#scene{height:min(62.8vw,270px)!important}
+#content{top:min(62.8vw,270px)!important}
+
+/* 不自然な形状を作っていた追加発光レイヤーは停止 */
+.moon-glow,.lamp-glow,.window-glow{display:none!important;box-shadow:none!important;background:none!important}
+#menuBtn{right:2%;top:1%;width:18%;height:23%}
+
+/* ホームは一画面に固定し、指で収支欄が隠れないようにする */
+#content[data-page="home"]{overflow:hidden!important;display:flex;flex-direction:column;gap:clamp(5px,.8dvh,9px);padding-top:clamp(5px,.8dvh,9px)}
+#content[data-page="home"] .summary{flex:0 0 auto}
+#content[data-page="home"] .money-row{min-height:clamp(40px,5.25dvh,52px)}
+#content[data-page="home"] .save-card{flex:0 0 auto;margin-top:clamp(8px,1.1dvh,12px);padding-top:clamp(19px,2.5dvh,24px);padding-bottom:clamp(7px,1dvh,12px)}
+#content[data-page="home"] .features{flex:1 1 auto;min-height:0;margin-top:0}
+#content[data-page="home"] .feature{min-height:0;height:100%;padding-top:clamp(4px,.7dvh,8px);padding-bottom:clamp(4px,.7dvh,8px)}
+#content[data-page="home"] .feature .big{font-size:clamp(22px,3.4dvh,28px)}
+
+@media (max-height:760px){
+  #content[data-page="home"] .money-row{min-height:38px;font-size:clamp(16px,4.5vw,21px)}
+  #content[data-page="home"] .amount{font-size:clamp(19px,5.4vw,26px)}
+  #content[data-page="home"] .save-title{font-size:17px;padding:3px;top:-18px}
+  #content[data-page="home"] .save-numbers strong{font-size:19px}
+  #content[data-page="home"] .progress{height:23px}
+  #content[data-page="home"] .feature small{font-size:10px}
+}
+@media (min-width:431px){#scene img{transform:translateY(-39px)}}
