@@ -1,0 +1,10 @@
+/* 画像内の疑似ステータスバーを上へ逃がし、端末本来の表示を使う */
+#scene img{transform:translateY(-9vw)}
+
+/* タイトル上に形状が現れていた追加発光レイヤーは完全に停止 */
+.moon-glow,.lamp-glow,.window-glow{display:none!important;box-shadow:none!important;background:none!important}
+
+/* 上端を切り取った後の実画像に合わせたメニューのタップ領域 */
+#menuBtn{right:2%;top:1%;width:18%;height:23%}
+
+@media (min-width:431px){#scene img{transform:translateY(-39px)}}
