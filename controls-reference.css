@@ -1,0 +1,15 @@
+/* 「今月の貯金」見出しを右へ移動 */
+#content[data-page="home"] .save-title{left:25%;right:4%}
+
+/* 添付画像の4機能カードをそのまま表示 */
+#content[data-page="home"] .features{position:relative;display:grid;grid-template-columns:repeat(4,1fr);height:min(31.5vw,135px);flex:0 0 min(31.5vw,135px);overflow:hidden;gap:0;background:#071331}
+.feature-reference-art{position:absolute;z-index:0;left:0;top:0;width:100%;height:auto;transform:translateY(-75.7%);pointer-events:none}
+#content[data-page="home"] .feature{position:relative;z-index:1;height:100%;min-height:0!important;border:0!important;outline:0!important;box-shadow:none!important;background:transparent!important;color:transparent!important;padding:0!important;font-size:0!important}
+#content[data-page="home"] .feature .big,#content[data-page="home"] .feature small{visibility:hidden!important}
+
+/* 添付画像の下部ナビをそのまま表示し、透明な操作領域を重ねる */
+#content{bottom:min(14.4vw,62px)!important}
+#bottomNav{height:min(14.4vw,62px);padding:0!important;overflow:hidden;background:#111435!important;border:0!important;box-shadow:none!important}
+.nav-reference-art{position:absolute;z-index:0;left:0;top:0;width:100%;height:auto;transform:translateY(-91.33%);pointer-events:none}
+#bottomNav .nav-btn{position:relative;z-index:1;height:100%;padding:0!important;border:0!important;outline:0!important;background:transparent!important;color:transparent!important;font-size:0!important;box-shadow:none!important}
+#bottomNav .nav-btn .ico{visibility:hidden!important}
