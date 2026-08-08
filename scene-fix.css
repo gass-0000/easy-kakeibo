@@ -1,0 +1,4 @@
+/* 光のレイヤーを実景の位置へ合わせ、輪郭のある四角・丸を出さない */
+.moon-glow{right:12%;top:40%;width:11%;box-shadow:none;background:radial-gradient(circle,#ffe88a26 0 28%,#ffe36b16 48%,transparent 72%);filter:blur(5px);mix-blend-mode:screen}
+.lamp-glow{left:4%;top:40%;width:12%;height:24%;border-radius:50%;box-shadow:none;background:radial-gradient(ellipse,#ffd85b26 0 20%,#ffd85b12 42%,transparent 72%);filter:blur(6px);mix-blend-mode:screen}
+.window-glow{left:29%;top:51%;width:40%;height:28%;border-radius:45%;box-shadow:none;background:radial-gradient(circle at 21% 29%,#ffd9681f 0 8%,transparent 19%),radial-gradient(circle at 21% 72%,#ffd9681f 0 10%,transparent 21%),radial-gradient(circle at 79% 69%,#ffd9681f 0 10%,transparent 21%),radial-gradient(circle at 50% 71%,#ffd96818 0 7%,transparent 17%);filter:blur(5px);mix-blend-mode:screen}
