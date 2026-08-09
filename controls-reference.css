@@ -60,5 +60,7 @@
 .input-layer{position:absolute;z-index:8;left:0;right:0;top:calc(min(62.8vw,270px) - 6px);bottom:min(22.8vw,98px);padding:1.8% 2.6%;overflow:auto;-webkit-overflow-scrolling:touch;background:#071331}
 .input-layer[hidden]{display:none!important}
 .input-layer .window{position:relative;z-index:1;padding:14px;margin:0;transform:none!important;transition:none!important}
-.input-layer input{position:static!important;width:100%;min-height:48px;font-size:16px!important;line-height:1.25;-webkit-appearance:auto!important;appearance:auto!important;pointer-events:auto!important;touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important;transform:none!important;transition:none!important}
+.input-layer input,.input-layer textarea{position:static!important;width:100%;min-height:48px;font-size:16px!important;line-height:1.25;-webkit-appearance:auto!important;appearance:auto!important;pointer-events:auto!important;touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important;transform:none!important;transition:none!important}
+.input-layer textarea{min-height:130px!important}
 .input-layer .input-cancel{background:#554b70}
+#calendarMonth{min-height:42px;max-width:58%;padding:6px;border:3px solid #d2ad69;background:#fff5d5;color:#19152b;font-size:16px;font-weight:800}
