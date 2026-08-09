@@ -37,3 +37,18 @@
 .nav-reference-art{position:absolute;z-index:0;left:0;top:0;width:100%;height:auto;transform:translateY(calc(-91.33% - 4px));pointer-events:none}
 #bottomNav .nav-btn{position:relative;z-index:1;height:100%;padding:0!important;border:0!important;outline:0!important;background:transparent!important;color:transparent!important;font-size:0!important;box-shadow:none!important}
 #bottomNav .nav-btn .ico{visibility:hidden!important}
+
+/* 添付された1902x827pxの原画像を再圧縮せず、そのまま下部ナビに使用 */
+#content{bottom:min(22.8vw,98px)!important}
+#bottomNav{height:min(22.8vw,98px)!important;isolation:isolate}
+.nav-reference-art{left:-1%!important;top:0!important;width:102.5%!important;max-width:none!important;height:auto!important;transform:translateY(-27.45%)!important;image-rendering:auto;pointer-events:none!important;user-select:none}
+#bottomNav .nav-btn{z-index:2!important;pointer-events:auto!important;touch-action:manipulation}
+#bottomNav .nav-btn.active{background:transparent!important}
+
+/* iOSでも入力欄と履歴の操作ボタンを確実に最前面で操作可能にする */
+#content:not([data-page="home"]){-webkit-overflow-scrolling:touch}
+#content:not([data-page="home"]) .window{isolation:isolate}
+#content input,#content textarea,#content button{pointer-events:auto!important}
+.record-actions{position:relative;z-index:10}
+.record-actions .app-btn{min-width:52px;min-height:40px}
+.record-actions .danger{background:#9b3652}
