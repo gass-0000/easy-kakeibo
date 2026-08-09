@@ -55,3 +55,10 @@
 .record-actions{position:relative;z-index:10}
 .record-actions .app-btn{min-width:52px;min-height:40px}
 .record-actions .danger{background:#9b3652}
+
+/* 入力フォームは初期HTMLに固定し、iOSでタップ後にDOMを作り直さない */
+.input-layer{position:absolute;z-index:8;left:0;right:0;top:calc(min(62.8vw,270px) - 6px);bottom:min(22.8vw,98px);padding:1.8% 2.6%;overflow:auto;-webkit-overflow-scrolling:touch;background:#071331}
+.input-layer[hidden]{display:none!important}
+.input-layer .window{position:relative;z-index:1;padding:14px;margin:0;transform:none!important;transition:none!important}
+.input-layer input{position:static!important;width:100%;min-height:48px;font-size:16px!important;line-height:1.25;-webkit-appearance:auto!important;appearance:auto!important;pointer-events:auto!important;touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important;transform:none!important;transition:none!important}
+.input-layer .input-cancel{background:#554b70}
