@@ -2,8 +2,8 @@
 #content[data-page="home"] .save-title{left:25%;right:4%}
 
 /* 添付画像の「今月の貯金」をそのまま背景に使う */
-#content[data-page="home"] .save-card{position:relative;height:min(41.8vw,180px);flex:0 0 min(41.8vw,180px);margin-top:0!important;padding:0!important;border:0!important;outline:0!important;overflow:hidden;background:#fff3cf!important;transform:translateY(7px)}
-.saving-reference-art{position:absolute;z-index:0;left:0;top:0;width:100%;height:auto;transform:translateY(-55.3%);pointer-events:none}
+#content[data-page="home"] .save-card{position:relative;height:min(44.8vw,193px);flex:0 0 min(44.8vw,193px);margin-top:0!important;padding:0!important;border:0!important;outline:0!important;overflow:hidden;background:#fff3cf!important;transform:translateY(20px)}
+.saving-reference-art{position:absolute;z-index:0;left:0;top:0;width:100%;height:auto;transform:translateY(-53.8%);pointer-events:none}
 #content[data-page="home"] .save-title{display:none!important}
 #content[data-page="home"] .save-grid{position:absolute;z-index:1;inset:0;display:block}
 #content[data-page="home"] .save-numbers{position:absolute;left:5%;top:20%;width:37%;height:72%;border:0!important;font-size:0;color:transparent}
@@ -18,7 +18,12 @@
 /* 収支枠を猫に重ならない範囲で少しだけ上へ */
 #content{top:calc(min(62.8vw,270px) - 6px)!important}
 #content[data-page="home"] .money-row{min-height:clamp(35px,4.7dvh,46px)!important}
-#content[data-page="home"] .features{transform:translateY(7px)}
+#content[data-page="home"] .features{transform:translateY(20px)}
+
+/* iPhone Safariでも入力欄を確実にタップ・編集できるようにする */
+#content:not([data-page="home"]) .window,#content:not([data-page="home"]) form{position:relative;z-index:5}
+#content input,#content textarea{position:relative;z-index:6;pointer-events:auto!important;touch-action:manipulation;-webkit-user-select:text;user-select:text;-webkit-appearance:none;appearance:none}
+#content input[type="date"]{-webkit-appearance:auto;appearance:auto;min-height:44px}
 
 /* 添付画像の4機能カードをそのまま表示 */
 #content[data-page="home"] .features{position:relative;display:grid;grid-template-columns:repeat(4,1fr);height:min(31.5vw,135px);flex:0 0 min(31.5vw,135px);overflow:hidden;gap:0;background:#071331}
