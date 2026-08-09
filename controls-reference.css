@@ -49,6 +49,9 @@
 #content:not([data-page="home"]){-webkit-overflow-scrolling:touch}
 #content:not([data-page="home"]) .window{isolation:isolate}
 #content input,#content textarea,#content button{pointer-events:auto!important}
+#content input,#content textarea{-webkit-appearance:auto!important;appearance:auto!important;transform:none!important;transition:none!important}
+#content input[name="amount"]{font-size:16px!important;touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important}
+.form-grid{transform:none!important;transition:none!important}
 .record-actions{position:relative;z-index:10}
 .record-actions .app-btn{min-width:52px;min-height:40px}
 .record-actions .danger{background:#9b3652}
