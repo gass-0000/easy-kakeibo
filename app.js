@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const K={records:'kk_records',goal:'kk_goal',memo:'kk_memo',wishes:'kk_wishes',seed:'kk_seed'};
+const K={records:'kk_records',goal:'kk_goal',memo:'kk_memo',wishes:'kk_wishes',seed:'kk_seed',sound:'kk_sound'};
 const $=s=>document.querySelector(s),content=$('#content'),overlay=$('#overlay');let page='home',calDate=new Date(),editId=null;
 $('#inputLayer').insertAdjacentHTML('afterend',`<section id="savingsLayer" class="input-layer persistent-layer" hidden><div class="rpg window"><h2>🐷 ちょきん</h2><div id="savingsStats"></div><form id="goalForm" class="form-grid"><label>目標貯金額<input name="goal" type="tel" inputmode="numeric" autocomplete="off" maxlength="9" required></label><button class="app-btn" type="submit">目標を変更</button></form><h2>月ごとの貯金</h2><div id="monthsList"></div></div></section><section id="wishesLayer" class="input-layer persistent-layer" hidden><div class="rpg window"><h2>⭐ ほしいもの</h2><form id="wishForm" class="form-grid"><input name="id" type="hidden"><label>名前<input name="name" required maxlength="40"></label><label>価格<input name="price" type="tel" inputmode="numeric" autocomplete="off" maxlength="9" required></label><label>メモ<input name="memo" maxlength="80"></label><button class="app-btn" type="submit">追加する</button></form><p id="wishTotal" class="wish-total"></p><div id="wishList"></div></div></section><section id="memoLayer" class="input-layer persistent-layer" hidden><div class="rpg window"><h2>🐷 ちょきんメモ</h2><label>自由に書き留めてください<textarea id="savingMemo" placeholder="目標や買いたいものなど"></textarea></label><p>入力内容は自動保存されます。</p></div></section>`);
 const today=()=>new Date().toISOString().slice(0,10),read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
@@ -8,9 +8,51 @@ const yen=n=>'￥'+Math.abs(Math.round(n)).toLocaleString('ja-JP'),records=()=>r
 const totals=(m=monthKey())=>records().filter(r=>r.date.startsWith(m)).reduce((a,r)=>(a[r.type]+=Number(r.amount),a),{income:0,expense:0});
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800)}
+// Offline-friendly synthesized UI sounds. The audio context is created only
+// after a user gesture so this also works with mobile autoplay restrictions.
+let audioContext=null;
+const soundEnabled=()=>read(K.sound,true)!==false;
+function tone(notes,duration=.07,volume=.035){
+  if(!soundEnabled())return;
+  try{
+    audioContext??=new (window.AudioContext||window.webkitAudioContext)();
+    if(audioContext.state==='suspended')audioContext.resume();
+    const start=audioContext.currentTime;
+    notes.forEach((frequency,index)=>{
+      const oscillator=audioContext.createOscillator(),gain=audioContext.createGain();
+      oscillator.type='sine';oscillator.frequency.value=frequency;
+      gain.gain.setValueAtTime(.0001,start+index*.025);
+      gain.gain.exponentialRampToValueAtTime(volume,start+index*.025+.008);
+      gain.gain.exponentialRampToValueAtTime(.0001,start+index*.025+duration);
+      oscillator.connect(gain).connect(audioContext.destination);
+      oscillator.start(start+index*.025);oscillator.stop(start+index*.025+duration+.01);
+    });
+  }catch{}
+}
+function playUiSound(kind){
+  if(kind==='nav')tone([440,587],.065,.025);
+  else if(kind==='save')tone([523,659,784],.11,.03);
+  else if(kind==='danger')tone([220,174],.1,.025);
+  else tone([520],.045,.018);
+}
+document.addEventListener('click',e=>{
+  const button=e.target.closest('button');if(!button)return;
+  if(button.id==='soundToggle'){
+    const enabled=!soundEnabled();write(K.sound,enabled);
+    button.textContent=enabled?'操作音：ON':'操作音：OFF';
+    button.setAttribute('aria-pressed',String(enabled));
+    if(enabled)playUiSound('save');
+    return;
+  }
+  if(!soundEnabled())return;
+  if(button.matches('[data-del],[data-wdel],.danger,#confirmClear'))playUiSound('danger');
+  else if(button.matches('[type="submit"]'))playUiSound('save');
+  else if(button.matches('[data-page],#menuBtn,[data-cal]'))playUiSound('nav');
+  else playUiSound('tap');
+},true);
 function nav(){const items=[['home','🏠','ホーム'],['records','📖','きろく'],['savings','🐷','ちょきん'],['wishes','⭐','ほしいもの'],['settings','•••','その他']];$('#bottomNav').innerHTML=items.map(x=>`<button class="nav-btn ${page===x[0]?'active':''}" data-page="${x[0]}" aria-label="${x[2]}"><span class="ico">${x[1]}</span>${x[2]}</button>`).join('')}
 function route(p){const layerIds={input:'inputLayer',savings:'savingsLayer',wishes:'wishesLayer',memo:'memoLayer'};Object.values(layerIds).forEach(id=>$('#'+id).hidden=layerIds[p]!==id);page=p;render();content.scrollTop=0;content.classList.remove('swap')}
-function render(){content.dataset.page=page;nav();const navArt=document.createElement('img');navArt.className='nav-reference-art';navArt.src='./assets/ui/bottom-navigation-original.png';navArt.alt='';navArt.setAttribute('aria-hidden','true');$('#bottomNav').prepend(navArt);({home,records:recordList,savings,wishes,settings,input,graph,calendar,memo}[page]||home)();if(page==='home'){const savingArt=document.createElement('img');savingArt.className='saving-reference-art';savingArt.src='./assets/ui/reference-controls.jpg';savingArt.alt='';savingArt.setAttribute('aria-hidden','true');$('.save-card').prepend(savingArt);const featureArt=document.createElement('img');featureArt.className='feature-reference-art';featureArt.src='./assets/ui/reference-controls.jpg';featureArt.alt='';featureArt.setAttribute('aria-hidden','true');$('.features').prepend(featureArt)}}
+function render(){content.dataset.page=page;nav();const navArt=document.createElement('img');navArt.className='nav-reference-art';navArt.src='./assets/ui/bottom-navigation-original.png';navArt.alt='';navArt.setAttribute('aria-hidden','true');$('#bottomNav').prepend(navArt);({home,records:recordList,savings,wishes,settings,input,graph,calendar,memo}[page]||home)();if(page==='settings'){const heading=content.querySelector('h2'),sound=soundEnabled(),panel=document.createElement('section');panel.className='sound-settings';panel.innerHTML=`<h3>サウンド</h3><p>ボタン操作や保存時に短い操作音を鳴らします。</p><button class="app-btn" id="soundToggle" aria-pressed="${sound}">操作音：${sound?'ON':'OFF'}</button>`;heading?.insertAdjacentElement('afterend',panel)}if(page==='home'){const savingArt=document.createElement('img');savingArt.className='saving-reference-art';savingArt.src='./assets/ui/reference-controls.jpg';savingArt.alt='';savingArt.setAttribute('aria-hidden','true');$('.save-card').prepend(savingArt);const featureArt=document.createElement('img');featureArt.className='feature-reference-art';featureArt.src='./assets/ui/reference-controls.jpg';featureArt.alt='';featureArt.setAttribute('aria-hidden','true');$('.features').prepend(featureArt)}}
 function home(){const t=totals(),bal=t.income-t.expense,g=read(K.goal,100000),pct=g?Math.round(bal/g*100):0,remain=g-bal;content.innerHTML=`<section class="rpg summary"><div class="money-row income"><b>💰 収入</b><i class="dots"></i><span class="amount">${yen(t.income)}</span></div><div class="money-row expense"><b>👛 支出</b><i class="dots"></i><span class="amount">${yen(t.expense)}</span></div><div class="money-row ${bal<0?'expense':'balance'}"><b>🪙 残り</b><i class="dots"></i><span class="amount">${bal<0?'-':''}${yen(bal)}</span></div></section><section class="save-card"><div class="save-title">🐷 今月の貯金 ✦</div><div class="save-grid"><div class="save-numbers">🚩 目標貯金額<strong>${yen(g)}</strong>⭐ 今月の貯金額<strong>${bal<0?'-':''}${yen(bal)}</strong></div><div class="progress-wrap"><b>あと ${remain>0?yen(remain):'達成！'}</b><div class="progress"><span style="width:${Math.max(0,Math.min(100,pct))}%"></span></div><strong>${pct}%</strong></div></div></section><div class="features"><button class="feature" data-page="input"><span class="big">✏️</span>かんたん入力<small>収入・支出を記録する</small></button><button class="feature" data-page="graph"><span class="big">📊</span>グラフ<small>収支のグラフを確認する</small></button><button class="feature" data-page="calendar"><span class="big">📅</span>カレンダー<small>カレンダーで振り返る</small></button><button class="feature" data-page="memo"><span class="big">🐷</span>貯金メモ<small>目標やメモを書き留める</small></button></div>`}
 function input(){const r=editId?records().find(x=>String(x.id)===String(editId)):null,f=$('#recordForm'),type=r?.type||'income';content.innerHTML='';$('#inputHeading').textContent=r?'記録を編集':'✏️ かんたん入力';f.elements.type.value=type;f.elements.amount.value=r?.amount||'';f.elements.date.value=r?.date||today();f.elements.memo.value=r?.memo||'';f.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===type))}
 function recordList(){const rs=[...records()].sort((a,b)=>b.date.localeCompare(a.date));content.innerHTML=`<section class="rpg window"><h2>📖 収入・支出履歴</h2>${rs.length?rs.map(r=>`<article class="record"><div><b class="${r.type}">${r.date}　${r.type==='income'?'収入':'支出'}</b><br>${esc(r.memo)||'（メモなし）'}</div><div><b>${yen(r.amount)}</b><div class="record-actions"><button type="button" class="app-btn mini" data-edit="${r.id}" aria-label="この記録を編集">編集</button><button type="button" class="app-btn mini danger" data-del="${r.id}" aria-label="この記録を削除">削除</button></div></div></article>`).join(''):'<p class="empty">記録はまだありません</p>'}</section>`}
